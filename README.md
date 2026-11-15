@@ -1,4 +1,4 @@
-# Plotting Upper Air Temperature as a Function of Time (2-3km) Using Sounderpy
+# Plotting Upper Air Temperature (2-3km) as a Function of Time Using Sounderpy
 
 libraries needed:
 
