@@ -1,0 +1,56 @@
+import sounderpy as spy
+import matplotlib.pyplot as plt
+import metpy
+import numpy as np
+import math
+
+#the usual
+year  = int(input("Year: ")) 
+month = int(input("Month: "))
+day   = int(input("Starting Day: "))
+hour  = int(input("Hour: "))
+station = input("Station: ")
+days = int(input("Number of Days: "))
+
+#what index of data lists will we grab values from
+listIndex = 30
+
+#empty lists, will append then plot later
+time_elapsed = []
+temp_elapsed = [] 
+height_elapsed = []
+height_avg = 0
+
+#cycling through each sounding from each day and appending to the new lists
+for i in range (days):
+    
+    clean_data = spy.get_obs_data(station, year, month, day + i, hour)
+    temperature_data = clean_data['T'] 
+    height_data = clean_data['z']
+    
+    temp_elapsed.append((temperature_data[listIndex].magnitude) * 1.8 + 32)
+    time_elapsed.append(i)
+    
+    height_elapsed.append(height_data[listIndex].magnitude)
+    
+    height_avg = height_avg + height_data[listIndex].magnitude
+    
+    if i == (days - 1):
+        
+        height_avg = (height_avg / days) / 1000
+    
+    i += 1
+    
+x = time_elapsed
+y = temp_elapsed
+z = height_elapsed
+
+print(x)
+print(y)
+print(z)
+print(height_avg)
+plt.plot(x, y, color ="red")
+plt.title(str(hour) + "z " + station + " Temp at Avg Height " + str(height_avg) + "km Starting on " + str(year) + " " + str(month) + " " + str(day))
+plt.xlabel("Time Elapsed (Days)")
+plt.ylabel("Temp (F)")
+plt.show()
